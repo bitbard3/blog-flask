@@ -19,8 +19,8 @@
 <body>
     <header class="site-header">
       <nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top">
-        <div class="container">
-          <a class="navbar-brand" href="/">Flask Blog</a>
+
+          <a class="navbar-brand brand-name" href="/">Flask Blog</a>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
@@ -33,10 +33,12 @@
               <a class="nav-item nav-link" href="/register">Register</a>
             </div>
           </div>
-        </div>
+
       </nav>
     </header>
-
+{% block content %}
+  
+{% endblock content %}
 
 
     <!-- Optional JavaScript -->
