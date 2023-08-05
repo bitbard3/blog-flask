@@ -27,10 +27,10 @@
           <div class="collapse navbar-collapse" id="navbarToggle">
             <!-- Navbar Right Side -->
             <div class="navbar-nav ml-auto ">
-              <a class="nav-item nav-link" href="/">Home</a>
+              <a class="nav-item nav-link" href="{{url_for('home_page')}}">Home</a>
               <a class="nav-item nav-link" href="/about">About</a>
-              <a class="nav-item nav-link" href="/login">Login</a>
-              <a class="nav-item nav-link" href="/register">Register</a>
+              <a class="nav-item nav-link" href="{{url_for('login')}}">Login</a>
+              <a class="nav-item nav-link" href="{{url_for('register')}}">Register</a>
             </div>
           </div>
 
@@ -39,18 +39,25 @@
     {%with messages = get_flashed_messages(with_categories = true)%}
     {% if  messages%}
     {% for category,message in messages  %}
-      <div class="alert alert-{{category}}">
+      <div class="alert alert-{{category}}" id="alert">
         {{message}}
       </div>
     {% endfor %}
     {% endif %}
 
     {%endwith%}
+    
 {% block content %}
   
 {% endblock content %}
 
+<script type="text/javascript">
+  setTimeout(function () {
 
+      // Closing the alert
+      $('#alert').alert('close');
+  }, 3000);
+</script>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
