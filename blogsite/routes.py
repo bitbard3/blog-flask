@@ -2,7 +2,7 @@ from flask import render_template, url_for, flash, redirect
 from blogsite.forms import LoginForm, RegistrationForm
 from blogsite.models import Post, User
 from blogsite import app, bcrypt, db
-from flask_login import login_user
+from flask_login import login_user, current_user, logout_user
 dummy_data = [
     {
         'author': 'Corey Schafer',
@@ -27,6 +27,8 @@ def home_page():
 
 @app.route("/register", methods=['POST', 'GET'])
 def register():
+    if current_user.is_authenticated:
+        return redirect(url_for("home_page"))
     form = RegistrationForm()
     if form.validate_on_submit():
         hash_pw = bcrypt.generate_password_hash(
@@ -43,6 +45,8 @@ def register():
 
 @app.route("/login", methods=["POST", "GET"])
 def login():
+    if current_user.is_authenticated:
+        return redirect(url_for("home_page"))
     form = LoginForm()
     if form.validate_on_submit():
         user = db.session.query(User).filter_by(email=form.email.data).first()
@@ -53,3 +57,10 @@ def login():
     else:
         flash("Login Unsuccessful, Please enter correct username or passowrd", "danger")
     return render_template("login.html", form=form, title="Login")
+
+
+@app.route("/logout")
+def logout():
+    logout_user()
+    flash("Logged out successfully! See you soon!", "success")
+    return redirect(url_for("home_page"))
