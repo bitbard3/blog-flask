@@ -2,6 +2,7 @@ from flask import render_template, url_for, flash, redirect
 from blogsite.forms import LoginForm, RegistrationForm
 from blogsite.models import Post, User
 from blogsite import app, bcrypt, db
+from flask_login import login_user
 dummy_data = [
     {
         'author': 'Corey Schafer',
@@ -44,7 +45,9 @@ def register():
 def login():
     form = LoginForm()
     if form.validate_on_submit():
-        if form.email.data == "test@blog.com" and form.password.data == "password":
+        user = db.session.query(User).filter_by(email=form.email.data).first()
+        if user and bcrypt.check_password_hash(user.password, form.password.data):
+            login_user(user, remember=form.remember.data)
             flash("Login Successfully!", "success")
             return redirect(url_for("home_page"))
     else:
