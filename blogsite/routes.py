@@ -2,7 +2,7 @@ from flask import render_template, url_for, flash, redirect
 from blogsite.forms import LoginForm, RegistrationForm
 from blogsite.models import Post, User
 from blogsite import app, bcrypt, db
-from flask_login import login_user, current_user, logout_user
+from flask_login import login_user, current_user, logout_user, login_required
 dummy_data = [
     {
         'author': 'Corey Schafer',
@@ -54,8 +54,9 @@ def login():
             login_user(user, remember=form.remember.data)
             flash("Login Successfully!", "success")
             return redirect(url_for("home_page"))
-    else:
-        flash("Login Unsuccessful, Please enter correct username or passowrd", "danger")
+        else:
+            flash(
+                "Login Unsuccessful, Please enter correct username or passowrd", "danger")
     return render_template("login.html", form=form, title="Login")
 
 
@@ -64,3 +65,9 @@ def logout():
     logout_user()
     flash("Logged out successfully! See you soon!", "success")
     return redirect(url_for("home_page"))
+
+
+@app.route("/account")
+@login_required
+def account():
+    return render_template("account.html", title="Account")
