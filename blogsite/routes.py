@@ -1,5 +1,5 @@
-from flask import render_template, url_for, flash, redirect
-from blogsite.forms import LoginForm, RegistrationForm
+from flask import render_template, url_for, flash, redirect, request
+from blogsite.forms import LoginForm, RegistrationForm, UpdateAccountForm
 from blogsite.models import Post, User
 from blogsite import app, bcrypt, db
 from flask_login import login_user, current_user, logout_user, login_required
@@ -53,7 +53,8 @@ def login():
         if user and bcrypt.check_password_hash(user.password, form.password.data):
             login_user(user, remember=form.remember.data)
             flash("Login Successfully!", "success")
-            return redirect(url_for("home_page"))
+            next_page = request.args.get('next')
+            return redirect(next_page) if next_page else redirect(url_for("home_page"))
         else:
             flash(
                 "Login Unsuccessful, Please enter correct username or passowrd", "danger")
@@ -67,7 +68,19 @@ def logout():
     return redirect(url_for("home_page"))
 
 
-@app.route("/account")
+@app.route("/account", methods=['POST', 'GET'])
 @login_required
 def account():
-    return render_template("account.html", title="Account")
+    form = UpdateAccountForm()
+    if form.validate_on_submit():
+        current_user.username = form.username.data
+        current_user.email = form.email.data
+        db.session.commit()
+        flash("Your account has been updated", "success")
+        redirect(url_for('account'))
+    elif request.method == 'GET':
+        form.username.data = current_user.username
+        form.email.data = current_user.email
+    img_file = url_for(
+        'static', filename='profile_pics/'+current_user.profile_img)
+    return render_template("account.html", title="Account", img_file=img_file, form=form)
