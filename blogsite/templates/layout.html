@@ -11,16 +11,20 @@
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='main.css') }}">
 
     {% if title %}
-        <title>Flask Blog - {{ title }}</title>
+        <title>FlaskFolio - {{ title }}</title>
     {% else %}
-        <title>Flask Blog</title>
+        <title>FlaskFolio</title>
     {% endif %}
 </head>
 <body>
+
     <header class="site-header">
       <nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top">
 
-          <a class="navbar-brand brand-name" href="/">Flask Blog</a>
+          <a class="navbar-brand brand-name brand-name-custom" href="/">FlaskFolio</a>
+
+            <img class="brand-logo" src="{{url_for('static',filename='/images/icon.png')}}">
+
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
@@ -41,6 +45,7 @@
           </div>
       </nav>
     </header>
+
     {%with messages = get_flashed_messages(with_categories = true)%}
     {% if  messages%}
     {% for category,message in messages  %}
