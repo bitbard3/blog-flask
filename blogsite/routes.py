@@ -1,3 +1,5 @@
+import os
+import secrets
 from flask import render_template, url_for, flash, redirect, request
 from blogsite.forms import LoginForm, RegistrationForm, UpdateAccountForm
 from blogsite.models import Post, User
@@ -68,11 +70,25 @@ def logout():
     return redirect(url_for("home_page"))
 
 
+def saveimgage(imgform):
+    random_hex = secrets.token_hex(8)
+    _, ext = os.path.splitext(imgform.filename)
+    img_name = random_hex + ext
+    file_location = os.path.join(
+        app.root_path, 'static/profile_pics', img_name)
+    imgform.save(file_location)
+
+    return img_name
+
+
 @app.route("/account", methods=['POST', 'GET'])
 @login_required
 def account():
     form = UpdateAccountForm()
     if form.validate_on_submit():
+        if form.image.data:
+            picture_file = saveimgage(form.image.data)
+            current_user.profile_img = picture_file
         current_user.username = form.username.data
         current_user.email = form.email.data
         db.session.commit()
