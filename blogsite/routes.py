@@ -1,5 +1,6 @@
 import os
 import secrets
+from PIL import Image
 from flask import render_template, url_for, flash, redirect, request
 from blogsite.forms import LoginForm, RegistrationForm, UpdateAccountForm
 from blogsite.models import Post, User
@@ -76,7 +77,10 @@ def saveimgage(imgform):
     img_name = random_hex + ext
     file_location = os.path.join(
         app.root_path, 'static/profile_pics', img_name)
-    imgform.save(file_location)
+    output_size = (300, 300)
+    i = Image.open(imgform)
+    i.thumbnail(output_size)
+    i.save(file_location)
 
     return img_name
 
