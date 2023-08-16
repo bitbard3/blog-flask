@@ -102,7 +102,7 @@ def create_post():
                     content=form.content.data, author=current_user)
         db.session.add(post)
         db.session.commit()
-        flash("Blog Posted Successfully!", "success")
+        flash("Blog posted successfully!", "success")
         return redirect(url_for('home_page'))
     return render_template("create_post.html", title="New Post", form=form)
 
@@ -128,6 +128,19 @@ def update_post(post_id):
             post.title = form.title.data
             post.content = form.content.data
             db.session.commit()
-            flash("Post Updated Successfully", "success")
+            flash("Post updated successfully", "success")
             return redirect(url_for('home_page'))
     return render_template("update_post.html", title="Update Post", post=post, form=form)
+
+
+@app.route("/post/delete/<int:post_id>", methods=['POST'])
+@login_required
+def delete_post(post_id):
+    post = Post.query.get_or_404(post_id)
+    if current_user != post.author:
+        abort(403)
+    else:
+        db.session.delete(post)
+        db.session.commit()
+        flash("Post deleted successfully", "success")
+        return redirect(url_for('home_page'))
