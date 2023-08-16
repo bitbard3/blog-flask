@@ -1,59 +1,32 @@
-{% extends 'layout.html' %}
+{% extends "layout.html" %}
 {% block content %}
-<div class="form-container">
-    <div class="media">
-        <img class="rounded-circle account-img" src = "{{img_file}}">
-        <div class="media-body">
-            <h2 class="account-heading">{{current_user.username}}</h2>
-            <p class="text-secondary">{{current_user.email}}</p>
+<legend class=" mb-4 mt-0 text-center legend-text">My Posts</legend>
+    {% for post in posts %}
+        <div class="blog-container">
+            <article class="media content-section">
+
+              <div class="media-body">
+                <div class="article-metadata">
+                  <a class="mr-2" href="#">{{ post.author.username}}</a>
+                  <small class="text-muted">{{ post.date_posted.strftime('%d/%m/%Y') }}</small>
+                  {% if current_user == post.author %}
+                  <a href="{{url_for('post',post_id = post.id)}}">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square float-right mt-1 mr-1" viewBox="0 0 16 16">
+                      <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                      <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+                    </svg>
+                  </a>
+                  {% endif %}
+                </div>
+                <h2><a class="article-title" href="{{url_for('post',post_id=post.id)}}">{{ post.title }}</a></h2>
+                <p class="article-content">{{ post.content }}</p>
+              </div>
+            </article>
         </div>
+    {% endfor %}
+    <div class="blog-container mt-5 ">
+    <form action="{{url_for('account_update')}}" method="POST,GET">
+        <input type="submit" class="btn btn-primary" value="Edit Profile" >
+    </form>
     </div>
-
-        <form method="POST" action="" enctype="multipart/form-data">
-            {{form.hidden_tag()}}
-            <fieldset class="form-group">
-                <legend class="border-bottom pt-4 mb-2 mt-0  legend-text-update">Account Info</legend>
-
-            <div class="form-group mb-3">
-                {{form.username.label(class="form-control-label")}}
-                {% if form.username.errors %}
-                {{form.username(class="form-control form-control-lg is-invalid")}}
-                <div class="invalid-feedback">
-                    {% for error in form.username.errors%}
-                        <span>{{error}}</span>
-                    {% endfor %}
-                </div>
-                {% else %}
-                {{form.username(class="form-control form-control-lg")}}
-                {% endif %}
-            </div>
-            <div class="form-group mb-3">
-                {{form.email.label(class="form-control-label")}}
-                {% if form.email.errors %}
-                {{form.email(class="form-control form-control-lg is-invalid")}}
-                <div class="invalid-feedback">
-                    {% for error in form.email.errors%}
-                        <span>{{error}}</span>
-                    {% endfor %}
-                </div>
-                {% else %}
-                {{form.email(class="form-control form-control-lg")}}
-                {% endif %}
-            </div>
-            <div class="form-group">
-                {{form.update(class="btn btn-outline-primary")}}
-            </div>
-            <div class="form-group">
-                {{form.image.label()}}
-                {{form.image(class="form-control-file")}}
-                {% if form.image.errors %}
-                    {% for error in form.image.errors  %}
-                        <span class="text-danger">{{error}}</span><br>
-                    {% endfor %}
-                {% endif %}
-            </div>
-        </fieldset>
-        </form>
-    </div>
-</div>
 {% endblock content %}

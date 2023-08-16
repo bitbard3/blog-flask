@@ -72,9 +72,20 @@ def saveimgage(imgform):
     return img_name
 
 
+@app.route("/account/<username>", methods=['GET'])
+@login_required
+def account(username):
+
+    user = User.query.filter(User.username == username).first()
+    if current_user.username != user.username:
+        abort(403)
+    post = user.posts
+    return render_template("account.html", title="Account", posts=post)
+
+
 @app.route("/account", methods=['POST', 'GET'])
 @login_required
-def account():
+def account_update():
     form = UpdateAccountForm()
     if form.validate_on_submit():
         if form.image.data:
@@ -84,13 +95,13 @@ def account():
         current_user.email = form.email.data
         db.session.commit()
         flash("Your account has been updated", "success")
-        redirect(url_for('account'))
+        redirect(url_for('account_update'))
     elif request.method == 'GET':
         form.username.data = current_user.username
         form.email.data = current_user.email
     img_file = url_for(
         'static', filename='profile_pics/'+current_user.profile_img)
-    return render_template("account.html", title="Account", img_file=img_file, form=form)
+    return render_template("account_update.html", title="Account Update", img_file=img_file, form=form)
 
 
 @app.route("/post/new", methods=['POST', 'GET'])
