@@ -1,10 +1,16 @@
 {% extends "layout.html" %}
 {% block content %}
+{% if user.username == current_user.username%}
 <legend class=" mb-4 mt-0 text-center legend-text">My Posts</legend>
+{%else%}
+<legend class=" mb-4 mt-0 text-center legend-text">{{user.username}}'s posts</legend>
+{%endif%}
     {% for post in posts %}
         <div class="blog-container">
             <article class="media content-section">
-
+                {% if user.username != current_user.username %}
+              <img src="{{url_for('static',filename='profile_pics/'+ post.author.profile_img)}}" alt="" class="rounded-circle article-img">
+                {% endif %}
               <div class="media-body">
                 <div class="article-metadata">
                   <a class="mr-2" href="#">{{ post.author.username}}</a>
@@ -24,9 +30,12 @@
             </article>
         </div>
     {% endfor %}
-    <div class="blog-container mt-5 ">
-    <form action="{{url_for('account_update')}}" method="POST,GET">
-        <input type="submit" class="btn btn-primary" value="Edit Profile" >
-    </form>
-    </div>
+    {% if user.username == current_user.username %}
+    <div class="blog-container mt-5 mb-4">
+        <form action="{{url_for('account_update')}}" method="POST,GET">
+            <input type="submit" class="btn btn-primary" value="Edit Profile" >
+        </form>
+        </div>
+    {% endif %}
+
 {% endblock content %}

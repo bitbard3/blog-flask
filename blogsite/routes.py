@@ -11,7 +11,9 @@ from flask_login import login_user, current_user, logout_user, login_required
 @app.route("/")
 @app.route("/home")
 def home_page():
-    posts = Post.query.all()
+    page = request.args.get('page', 1, int)
+    posts = Post.query.order_by(
+        Post.date_posted.desc()).paginate(page=page, per_page=6)
     return render_template("home.html", posts=posts)
 
 
@@ -73,14 +75,11 @@ def saveimgage(imgform):
 
 
 @app.route("/account/<username>", methods=['GET'])
-@login_required
 def account(username):
 
-    user = User.query.filter(User.username == username).first()
-    if current_user.username != user.username:
-        abort(403)
+    user = User.query.filter(User.username == username).first_or_404()
     post = user.posts
-    return render_template("account.html", title="Account", posts=post)
+    return render_template("account.html", title="Account", posts=post, user=user)
 
 
 @app.route("/account", methods=['POST', 'GET'])
