@@ -76,10 +76,11 @@ def saveimgage(imgform):
 
 @app.route("/account/<username>", methods=['GET'])
 def account(username):
-
+    page = request.args.get('page', 1, int)
     user = User.query.filter(User.username == username).first_or_404()
-    post = user.posts
-    return render_template("account.html", title="Account", posts=post, user=user)
+    posts = Post.query.filter_by(author=user).order_by(
+        Post.date_posted.desc()).paginate(page=page, per_page=4)
+    return render_template("account.html", title="Account", posts=posts, user=user)
 
 
 @app.route("/account", methods=['POST', 'GET'])

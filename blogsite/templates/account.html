@@ -30,6 +30,27 @@
             </article>
         </div>
     {% endfor %}
+    <div class="blog-container">
+  
+        <ul class="pagination float-right mt-5 ">
+        {% for page_num in posts.iter_pages(left_edge =1 ,right_edge =1 ,left_current =1 ,right_current=2) %}
+    
+            {% if page_num %}
+            {% if page_num == posts.page %}
+            <li class="page-item "><a  class='page-link rounded-bottom rounded-top ' style="background:#007bff; color: azure;" href="{{url_for('account',page=page_num,username=user.username)}}">{{page_num }}</a></li>
+            {% else %}
+            <li class="page-item "><a  class='page-link rounded-bottom rounded-top ' href="{{url_for('account',page=page_num,username=user.username)}}">{{page_num }}</a></li>
+            {% endif %}
+    
+            {% else %}
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots ml-1 mr-1" style="margin-top: 0.6rem;" viewBox="0 0 16 16">
+              <path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"/>
+            </svg>
+            {% endif %}
+    
+        {% endfor %}
+      </ul>
+    </div>
     {% if user.username == current_user.username %}
     <div class="blog-container mt-5 mb-4">
         <form action="{{url_for('account_update')}}" method="POST,GET">
