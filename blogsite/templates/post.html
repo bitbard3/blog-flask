@@ -5,7 +5,7 @@
               <img src="{{url_for('static',filename='profile_pics/'+ post.author.profile_img)}}" alt="" class="rounded-circle article-img">
               <div class="media-body">
                 <div class="article-metadata">
-                  <a class="mr-2" href="#">{{ post.author.username}}</a>
+                  <a class="mr-2" href="{{url_for('account',username = post.author.username)}}">{{ post.author.username}}</a>
                   <small class="text-muted">{{ post.date_posted.strftime('%d/%m/%Y') }}</small>
                   {% if current_user == post.author %}
                       <a href="#" class="btn float-right ml-1" style="padding: 0; margin-top: 0.1rem; border: 0;"  data-toggle="modal" data-target="#myModal"> <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3-fill " style="color: rgb(249, 17, 17) ;" viewBox="0 0 16 16">
