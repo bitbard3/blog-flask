@@ -1,5 +1,6 @@
-from blogsite import db, login_manager
+from blogsite import db, login_manager, app
 from datetime import datetime
+from itsdangerous import TimedJSONWebSignatureSerializer as Serailizer
 from flask_login import UserMixin
 
 
@@ -16,6 +17,20 @@ class User(db.Model, UserMixin):
     profile_img = db.Column(
         db.String(20), nullable=False, default='default.png')
     posts = db.relationship('Post', backref='author', lazy=True)
+
+    def create_token(self, expires_sec=1800):
+        s = Serailizer(app.config['SECRET_KEY'],expires_in= expires_sec)
+        return s.dumps({'user_id': self.id}).decode('utf-8')
+
+    @staticmethod
+    def verify_token(token):
+        s = Serailizer(app.config['SECRET_KEY'])
+        try:
+            data = s.loads(token)
+            user_id = data['user_id']
+            return User.query.get(user_id)
+        except:
+            return None
 
     def __repr__(self):
         return f"User ('{self.username}' , '{self.email}') "
