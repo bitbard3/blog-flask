@@ -42,6 +42,7 @@ h1, h2, h3, h4, h5, h6 {
   
   .article-content {
     white-space: pre-line;
+    font-size: 1rem;
   }
   
   .article-img {
@@ -78,8 +79,9 @@ h1, h2, h3, h4, h5, h6 {
     font-size: 2.5rem;
   }
 .blog-container{
-  margin-right: 10rem;
-  margin-left: 10rem;
+  margin-top: 1rem;
+  margin-right: 7rem;
+  margin-left: 7rem;
 }
 .brand-name{
   margin-left: 1.5rem;
@@ -102,3 +104,45 @@ h1, h2, h3, h4, h5, h6 {
 .brand-name-custom{
   margin-right: 0;
 }
+@media (min-width:540px) and (max-width: 1024px ){
+  .blog-container, .form-container {
+    margin-right: 5rem;
+    margin-left: 5rem;}
+    h2{
+      font-size: 1.0rem;
+    }
+    .article-content{
+      font-size: 0.9rem;
+    }
+    .article-title{
+      font-size: 1.4rem;
+
+    }
+}
+@media (max-width: 540px) {
+  .blog-container, .form-container {
+    margin-right: 0.5rem;
+    margin-left: 0.5rem;}
+
+  .article-content{
+      font-size: 0.7rem;
+    }
+    .article-title{
+      font-size: 1.2rem;
+    }
+    h2{
+      font-size: 1.5rem;
+    }
+    .brand-name{
+      margin-left: 0.3rem;
+      font-size: 1.0rem;
+    }
+    .brand-logo{
+      width: 2.5rem;
+      height: 2.5rem ;
+    }
+    }
+  
+
+
+
