@@ -1,11 +1,14 @@
 import os
+from dotenv import load_dotenv, dotenv_values
+
+load_dotenv()
 
 
 class Config:
-    SECRET_KEY = os.environ.get('SECRET_KEY')
+    SECRET_KEY = os.getenv('SECRET_KEY')
     SQLALCHEMY_DATABASE_URI = 'sqlite:///site.db'
     MAIL_SERVER = 'smtp.googlemail.com'
     MAIL_PORT = 465
     MAIL_USE_SSL = True
-    MAIL_USERNAME = os.environ.get('MAIL_USER')
-    MAIL_PASSWORD = os.environ.get('MAIL_PASS')
+    MAIL_USERNAME = os.getenv('MAIL_USER')
+    MAIL_PASSWORD = os.getenv('MAIL_PASS')
