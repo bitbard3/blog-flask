@@ -1,0 +1,41 @@
+{% extends 'layout.html' %}
+{% block content %}
+    <div class="blog-container mt-2">
+            <h2 >
+                Hey there!
+            </h2 >
+            <p class="article-content mt-4">Presenting a minimalist blog website created by <a onclick="scrollWin()" class="text-primary" style="cursor: pointer;">me</a> with essential backend functionalities. Crafted using the Flask framework and enhanced with the Bootstrap library for a sleek design, this platform offers a seamless experience across all screen sizes. Its responsive layout ensures optimal usability whether you're accessing it from a desktop, tablet, or smartphone.
+            </p>
+            <h2 class="mt-4">
+                Functionalities:</h2>
+
+<div class="">
+    <div class="mb-3 article-content">1. <div class="font-weight-bold" style="display: inline;">Authentication System</div>: Seamlessly integrated is a robust authentication mechanism that ensures the confidentiality and security of user data. This system allows authorized access to the site's functionalities.</div>
+    
+    <div class="mb-3 article-content">2. <div class="font-weight-bold" style="display: inline;" >Blog Management</div>: Leveraging Flask's power, I've implemented a comprehensive system for creating, editing, and deleting blog posts. The backend architecture efficiently manages the interactions, providing a smooth user experience.</div>
+    
+    <div class="mb-3 article-content">3. <div class="font-weight-bold" style="display: inline;">Pagination Handling</div>: To optimize the user experience as content grows, I've expertly incorporated a pagination system. This ensures that the site remains responsive and efficient, even when navigating an extensive collection of posts.</div>
+    
+    <div class="mb-3 article-content">4. <div class="font-weight-bold" style="display: inline;">Profile Customization</div>: Users can now curate their profiles to reflect their personality. This includes editing their biography, connecting social media links, and uploading profile pictures seamlessly using Flask.</div>
+
+    <div class="mb-3 article-content">5. <div class="font-weight-bold" style="display: inline;">Email-based Password Reset</div>: Ensuring user accessibility is a priority. Through Flask's capabilities, I've implemented a secure password reset mechanism using email. This allows users to reset their passwords conveniently while maintaining security.</div>
+</div>
+
+<div class="mt-4">
+    <h2>
+        Developed by:
+    </h2>
+    <a href="https://github.com/bitbard3" class="" target="_blank">
+        <img style="width: 3rem; height: 3rem;" src="{{url_for('static',filename='/images/github.png')}}">
+      </a>
+      <a href="https://twitter.com/BitBard3" class="ml-2" target="_blank" >
+        <img style="width: 2.8rem; height: 2.8rem;" src="{{url_for('static',filename='/images/twitter.png')}}">
+      </a>
+</div>
+</div>
+<script>
+    function scrollWin() {
+      window.scrollBy(0, 100);
+    }
+    </script>
+{% endblock content %}
